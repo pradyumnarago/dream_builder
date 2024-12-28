@@ -67,7 +67,7 @@
     <section class="contact-us">
         <h3 class="contact-us-heading">Contact Us</h3>
         <p class="contact-us-subheading">If you have any questions, need assistance, or want to give feedback, we’d love to hear from you!</p>
-        <form action="#" method="POST" class="contact-form">
+        <form action="{{ url_for('dashboard.contact') }}" method="POST" class="contact-form">
             <label for="name" class="contact-form-label">Full Name</label>
             <input type="text" id="name" name="name" class="contact-form-input" required>
 

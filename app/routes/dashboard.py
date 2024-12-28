@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, render_template, redirect, url_for,request,flash
 from flask_login import login_required, current_user
-from app.extensions import db
+from app.extensions import db,mail
 from app.models.schedule_model import Schedule
 from app.models.habit_model import Habit
 from app.models.schedule_tracking_model import ScheduleTracking
@@ -8,6 +8,7 @@ from app.models.habit_tracking_model import HabitTracking
 from app.models.user_model import User
 import datetime
 from app.utils.ai_api import generate_response
+from flask_mail import Message
 
 # Define the blueprint
 dashboard_bp = Blueprint('dashboard', __name__)
@@ -225,4 +226,32 @@ def delete_all_data():
         flash('An error occurred while deleting your data. Please try again.', 'danger')
 
     # Redirect back to the dashboard
+    return redirect(url_for('dashboard.dashboard'))
+
+@dashboard_bp.route('/contact', methods=['POST'])
+def contact():
+    # Get form data
+    name = request.form.get('name')
+    email = request.form.get('email')
+    message = request.form.get('message')
+
+    # Validate form data
+    if not all([name, email, message]):
+        flash('All fields are required.', 'error')
+        return redirect(url_for('dashboard.dashboard'))
+
+    # Prepare the email
+    msg = Message(
+        subject=f"New Contact Form Submission from {name}",
+        recipients=["dreambuilderpd@gmail.com"],  # Your support email
+        body=f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
+    )
+
+    # Send the email
+    try:
+        mail.send(msg)
+        flash('Your message has been sent successfully!', 'success')
+    except Exception as e:
+        flash(f"An error occurred while sending your message: {str(e)}", 'error')
+
     return redirect(url_for('dashboard.dashboard'))
