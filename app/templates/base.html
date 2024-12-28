@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Dream Builder{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="Group2" style="width: 1440px; height: 189px; position: relative">
+        <div class="Rectangle1" style="width: 1519px; height: 120px; left: 0px; top: 0px; position: absolute; background: #1a1a1a; border-bottom: solid black 4px;"></div>
+        <img class="Group111" style="width: 125px; height: 112px; left: 45px; top: 5px; position: absolute" src="{{ url_for('static', filename='images/Group1.png') }}" />
+        <div class="Dashboard" style="width: 200px; height: 41px; left: 665px; top: 50px; position: absolute; color: white; font-size: 22px; font-family: Inria Serif; font-weight: 700; word-wrap: break-word">
+            <a href="{{ url_for('dashboard.dashboard') }}">Dashboard</a>
+        </div>
+        <div class="Progress" style="width: 200px; height: 41px; left: 815px; top: 50px; position: absolute; color: white; font-size: 22px; font-family: Inria Serif; font-weight: 700; word-wrap: break-word">
+            <a href="{{ url_for('progress.progress') }}">Progress</a>
+        </div>
+        <ul class="nav-links nav-right">
+            <div class="profile-dropdown" style="width: 17px; height: 20px; left: 1450px; top: 40px; position: absolute">
+                <button class="profile-button" type="button">
+                    <img src="{{ url_for('static', filename='images/user-profile-icon.jpg') }}" alt="Profile" style="width: 40px; height: 40px;">
+                </button>
+                <div class="profile-dropdown-content">
+                    <a href="{{ url_for('auth.logout') }}">Logout</a>
+                    <form action="{{ url_for('dashboard.delete_all_data') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete all your data, including chats? This action cannot be undone.')">
+                        <button class="btn" type="submit">Delete All Data</button>
+                    </form>   
+                </div>
+                             
+            </div>
+        </ul>
+    </div>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <section class="difference-section">
+        <h3>What Makes Dream Builder Different?</h3>
+        <div class="difference-points">
+            <div class="difference-point">
+                <div class="circle-image">
+                    <img src="{{ url_for('static', filename='images/trusted_content_icon.png') }}" alt="Trusted Content" />
+                </div>
+                <h4>Trusted Content</h4>
+                <p>We provide reliable and up-to-date career advice.</p>
+            </div>
+            <div class="difference-point">
+                <div class="circle-image">
+                    <img src="{{ url_for('static', filename='images/personalized_learning_icon.png') }}" alt="Certified AI Counseling" />
+                </div>
+                <h4>AI Counseling</h4>
+                <p>Our AI-powered coaching is built on principles of cognitive behavioral therapy for optimal results.</p>
+            </div>
+            <div class="difference-point">
+                <div class="circle-image">
+                    <img src="{{ url_for('static', filename='images/empower_teachers_icon.png') }}" alt="Successful Career Path Building" />
+                </div>
+                <h4>Successful Career Path Building</h4>
+                <p>We help you map out a clear, actionable plan for achieving your career goals with personalized guidance.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-us">
+        <h3 class="contact-us-heading">Contact Us</h3>
+        <p class="contact-us-subheading">If you have any questions, need assistance, or want to give feedback, we’d love to hear from you!</p>
+        <form action="#" method="POST" class="contact-form">
+            <label for="name" class="contact-form-label">Full Name</label>
+            <input type="text" id="name" name="name" class="contact-form-input" required>
+
+            <label for="email" class="contact-form-label">Email Address</label>
+            <input type="email" id="email" name="email" class="contact-form-input" required>
+
+            <label for="message" class="contact-form-label">Your Message</label>
+            <textarea id="message" name="message" class="contact-form-textarea" required></textarea>
+
+            <button type="submit" class="contact-form-submit">Send Message</button>
+        </form>
+        <p class="contact-us-info">Or, reach us directly at: <a href="mailto:support@dreambuilder.com" class="contact-us-email">support@dreambuilder.com</a></p>
+        <p class="contact-us-phone">Phone: +1 (800) 123-4567</p>
+    </section>
+
+    <section class="help-center">
+        <h3 class="help-center-heading">Help Center</h3>
+        <p class="help-center-subheading">Welcome to our Help Center! Below are some of the most common questions and useful resources. If you can't find what you're looking for, feel free to contact us.</p>
+
+        <h4 class="faq-heading">Frequently Asked Questions</h4>
+        <ul class="faq-list">
+            <li class="faq-item">
+                <button class="faq-question">What is Dream Builder?</button>
+                <div class="faq-answer">
+                    <p>Dream Builder is an AI-powered career coaching platform that helps individuals set and achieve their professional goals through personalized counseling, tracking, and motivation.</p>
+                </div>
+            </li>
+            <li class="faq-item">
+                <button class="faq-question">How do I create an account?</button>
+                <div class="faq-answer">
+                    <p>Simply click on the "Sign Up" button on our homepage, and follow the instructions to create your account.</p>
+                </div>
+            </li>
+            <li class="faq-item">
+                <button class="faq-question">How can I update my schedule or habits?</button>
+                <div class="faq-answer">
+                    <p>After logging into your account, go to the "Dashboard" where you can modify your schedule and habits anytime.</p>
+                </div>
+            </li>
+            <li class="faq-item">
+                <button class="faq-question">How do I contact customer support?</button>
+                <div class="faq-answer">
+                    <p>You can reach our support team by emailing <a href="mailto:support@dreambuilder.com" class="help-center-email">support@dreambuilder.com</a>.</p>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <section class="resources-guides">
+        <h4 class="resources-heading">Resources & Guides</h4>
+        <ul class="resources-list">
+            <li class="resource-item">
+                <button class="resource-title">How to Get Started with Dream Builder</button>
+                <div class="resource-content">
+                    <p>Follow our step-by-step guide to setting up your account, defining your goals, and getting the most out of Dream Builder's AI-powered career coaching tools.</p>
+                    <a href="#" class="resource-link">Read the guide</a>
+                </div>
+            </li>
+            <li class="resource-item">
+                <button class="resource-title">Understanding Career Path Building</button>
+                <div class="resource-content">
+                    <p>This guide will help you understand how to use Dream Builder to create a custom career path, set achievable milestones, and track your progress effectively.</p>
+                    <a href="#" class="resource-link">Read the guide</a>
+                </div>
+            </li>
+            <li class="resource-item">
+                <button class="resource-title">Setting and Tracking Habits for Success</button>
+                <div class="resource-content">
+                    <p>Learn how to set up and track your daily habits to maintain a productive routine and achieve your career goals.</p>
+                    <a href="#" class="resource-link">Read the guide</a>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Dream Builder</p>
+    </footer>
+
+    <script>
+        // Dynamically update the date section if needed
+        const dateElement = document.getElementById("current-date");
+        if (dateElement) {
+            dateElement.innerText = new Date().toLocaleDateString();
+        }
+
+
+        // Random Quote Logic
+        const quotes = [
+            "Believe you can and you're halfway there. - Theodore Roosevelt",
+            "It does not matter how slowly you go as long as you do not stop. - Confucius",
+            "Success is not final, failure is not fatal: It is the courage to continue that counts. - Winston Churchill",
+            "It is better to fail in originality than to succeed in imitation. —Herman Melville",
+            "If you are working on something that you really care about, you don't have to be pushed. The vision pulls you. —Steve Jobs",
+            "The road to success and the road to failure are almost exactly the same. —Colin R. Davis",
+            "Success usually comes to those who are too busy to be looking for it. —Henry David Thoreau",
+            "Don't be afraid to give up the good to go for the great. —John D. Rockefeller",
+            "I find that the harder I work, the more luck I seem to have. —Thomas Jefferson",
+            "There are no secrets to success. It is the result of preparation, hard work, and learning from failure. —Colin Powell",
+            "Success is not the key to happiness. Happiness is the key to success. If you love what you are doing, you will be successful. —Albert Schweitzer",
+            "The only limit to our realization of tomorrow will be our doubts of today. —Franklin D. Roosevelt",
+            "What you get by achieving your goals is not as important as what you become by achieving your goals. —Zig Ziglar",
+            "The best way to predict the future is to invent it. —Alan Kay",
+            "Success is walking from failure to failure with no loss of enthusiasm. —Winston Churchill",
+        ];
+        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+        document.getElementById("random-quote").innerText = randomQuote;
+
+
+
+
+    // JavaScript to toggle the FAQ and Resource answers
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    const resourceTitles = document.querySelectorAll('.resource-title');
+
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+            const faqItem = question.closest('.faq-item');
+            faqItem.classList.toggle('active');
+        });
+    });
+
+    resourceTitles.forEach(title => {
+        title.addEventListener('click', () => {
+            const resourceItem = title.closest('.resource-item');
+            resourceItem.classList.toggle('active');
+        });
+    });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+dream_builder/
+│
+├── app/
+│   ├── __init__.py          # Initialize Flask app and extensions
+│   ├── routes/
+│   │   ├── auth_routes.py   # Handles login, registration, forgot password
+│   │   ├── dashboard.py     # Handles dashboard functionalities
+│   │   ├── counselling.py   # Handles AI-driven counselling
+│   │   ├── schedule.py      # Handles schedule management
+│   │   ├── habit.py         # Handles habit management
+│   │   ├── progress.py      # Handles progress review and graphs
+│   │   ├── api.py           # API integrations for AI-generated content
+│   │   └── __init__.py      # Imports for all routes
+│   │
+│   ├── models/
+│   │   ├── user_model.py    # User table schema and ORM
+│   │   ├── chat_model.py    # Chat table schema and ORM
+│   │   ├── schedule_model.py# Schedule table schema and ORM
+│   │   ├── habit_model.py   # Habit table schema and ORM
+│   │   └── __init__.py      # Imports for all models
+│   │
+│   ├── templates/           # HTML templates for rendering
+│   │   ├── base.html        # Base layout
+│   │   ├── login.html       # Login page
+│   │   ├── register.html    # Registration page
+│   │   ├── dashboard.html   # Dashboard page
+│   │   ├── counselling.html # Counselling page
+│   │   ├── schedule.html    # Edit schedule page
+│   │   ├── habit.html       # Edit habit page
+│   │   ├── progress.html    # Progress review page
+│   │   └── forgot_password.html # Forgot password flow
+│   │
+│   ├── static/
+│   │   ├── css/
+│   │   │   ├── styles.css   # Global styles
+│   │   │   └── forms.css    # Form-specific styles
+│   │   ├── js/
+│   │   │   ├── scripts.js   # Custom JS functions
+│   │   ├── images/          # Images and logos
+│   │   └── fonts/           # Custom fonts if any
+│   │
+│   ├── utils/
+│   │   ├── db.py            # Database connection
+│   │   ├── auth.py          # Authentication helper functions
+│   │   ├── validators.py    # Validation logic for inputs
+│   │   └── ai_api.py        # Functions to connect with AI API
+│   │
+│   ├── forms.py             # Flask-WTF forms for handling user input
+│   ├── config.py            # App configuration (DB credentials, secret keys)
+│   ├── extensions.py        # Flask extensions (e.g., SQLAlchemy, Flask-Login)
+│   └── app.py               # Main application file
+│
+├── migrations/              # Migration files for database schema
+│
+├── tests/                   # Unit and integration tests
+│   ├── test_auth.py         # Test authentication routes and logic
+│   ├── test_dashboard.py    # Test dashboard functionality
+│   ├── test_counselling.py  # Test AI integration and counseling
+│   ├── test_schedule.py     # Test schedule-related features
+│   ├── test_habit.py        # Test habit-related features
+│   └── test_progress.py     # Test progress graph functionality
+│
+├── venv/                    # Virtual environment for the project
+│
+├── requirements.txt         # Python dependencies
+├── .env                     # Environment variables (DB credentials, API keys)
+├── README.md                # Project documentation
+└── run.py                   # Entry point for running the app

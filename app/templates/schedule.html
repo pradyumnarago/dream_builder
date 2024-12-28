@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Schedule - Dream Builder{% endblock %}
+
+{% block content %}
+    <h2>Edit Schedule</h2>
+    <form action="{{ url_for('schedule.edit_schedule', schedule_id=schedule.id) }}" method="POST">
+        <label for="title">Task Title</label>
+        <input type="text" id="title" name="title" value="{{ schedule.title }}" required>
+        
+        <label for="description">Description</label>
+        <textarea id="description" name="description">{{ schedule.description }}</textarea>
+        
+        <label for="start_time">Start Time</label>
+        <input type="time-local" id="start_time" name="start_time" value="{{ schedule.start_time }}" required>
+        
+        <label for="end_time">End Time</label>
+        <input type="time-local" id="end_time" name="end_time" value="{{ schedule.end_time }}" required>
+        
+        <button type="submit">Update Schedule</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Habit - Dream Builder{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Add a New Habit</h2>
+    <form action="{{ url_for('habit.add_habit') }}" method="POST" class="mt-4">
+        <div class="form-group">
+            <label for="name">Habit Name</label>
+            <input 
+                type="text" 
+                class="form-control" 
+                id="name" 
+                name="name" 
+                placeholder="Enter habit name" 
+                required
+            >
+        </div>
+        <div class="form-group">
+            <label for="description">Description (Optional)</label>
+            <textarea 
+                class="form-control" 
+                id="description" 
+                name="description" 
+                rows="3" 
+                placeholder="Enter a brief description"
+            ></textarea>
+        </div>
+        <div class="form-group">
+            <label for="frequency">Frequency</label>
+            <select 
+                class="form-control" 
+                id="frequency" 
+                name="frequency" 
+                required
+            >
+                <option value="" disabled selected>Select frequency</option>
+                <option value="Daily">Daily</option>
+                <option value="Weekly">Weekly</option>
+                <option value="Monthly">Monthly</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="start_date">Start Date</label>
+            <input 
+                type="date" 
+                class="form-control" 
+                id="start_date" 
+                name="start_date" 
+                required
+            >
+        </div>
+        <div class="form-group">
+            <label for="end_date">End Date (Optional)</label>
+            <input 
+                type="date" 
+                class="form-control" 
+                id="end_date" 
+                name="end_date"
+            >
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Add Habit</button>
+        <a href="{{ url_for('dashboard.dashboard') }}" class="btn btn-secondary btn-block">Back to Habits</a>
+    </form>
+</div>
+{% endblock %}

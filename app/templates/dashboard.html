@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Dream Builder{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <section class="welcome-section">
+        <h2>Welcome, {{ user.full_name }}</h2>
+        <p style="color: #2c3e42;">Today's Date: <span id="current-date">{{ current_date }}</span></p>
+    </section>
+
+    <div class="quote">
+        <p id="random-quote"></p>
+    </div>
+    
+    
+
+    <!-- Schedule Section -->
+    <section class="schedule-section">
+        <h3>Your Schedule</h3>
+        <div>
+            {% if schedule %}
+                <ul class="task-list">
+                    {% for task in schedule %}
+                        <li class="task-item">
+                            <span>{{ task.title }} - {{ task.start_time }} to {{ task.end_time }}</span>
+                            <div class="task-actions">
+                                <input type="checkbox" name="schedule_{{ task.id }}" 
+                                       {% for tracking in task.schedule_trackings %}
+                                           {% if tracking.followed and tracking.date == current_date %}
+                                               checked
+                                           {% endif %}
+                                       {% endfor %}>
+                                <div class="dropdown">
+                                    <button class="dropdown-toggle" type="button" id="scheduleMenu{{ task.id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                        ⚙️
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="scheduleMenu{{ task.id }}">
+                                        <li><a class="dropdown-item" href="{{ url_for('schedule.edit_schedule', schedule_id=task.id) }}">Edit</a></li>
+                                        <li>
+                                            <form action="{{ url_for('schedule.delete_schedule', schedule_id=task.id) }}" method="POST" style="display:inline;">
+                                                <button class="dropdown-item" type="submit" onclick="return confirm('Are you sure you want to delete this schedule?');">Delete</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="no-schedule-message">No schedule for today.</p>
+                <a href="{{ url_for('counselling.counselling') }}" class="btn btn-primary add-btn">Start Counselling</a>
+            {% endif %}
+            <a href="{{ url_for('schedule.add_schedule') }}" class="btn btn-primary add-btn">Add Schedule</a>
+        </div>
+    </section>
+
+    <!-- Habits Section -->
+    <section class="habits-section">
+        <h3>Your Habits</h3>
+        <div>
+            {% if habits %}
+                <ul class="habit-list">
+                    {% for habit in habits %}
+                        <li class="habit-item">
+                            <span>{{ habit.name }} - {{ habit.frequency }}</span>
+                            <div class="habit-actions">
+                                <input type="checkbox" name="habit_{{ habit.id }}" 
+                                       {% for tracking in habit.habit_trackings %}
+                                           {% if tracking.followed and tracking.date == current_date %}
+                                               checked
+                                           {% endif %}
+                                       {% endfor %}>
+                                    <div class="dropdown">
+                                    <button class="dropdown-toggle" type="button" id="habitMenu{{ habit.id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                        ⚙️
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="habitMenu{{ habit.id }}">
+                                        <li><a class="dropdown-item" href="{{ url_for('habit.edit_habit', habit_id=habit.id) }}">Edit</a></li>
+                                        <li>
+                                            <form action="{{ url_for('habit.delete_habit', habit_id=habit.id) }}" method="POST" style="display:inline;">
+                                                <button class="dropdown-item" type="submit" onclick="return confirm('Are you sure you want to delete this habit?');">Delete</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="no-habit-message">No habits to follow today.</p>
+                <a href="{{ url_for('counselling.counselling') }}" class="btn btn-primary add-btn">Start Counselling</a>
+            {% endif %}
+            <a href="{{ url_for('habit.add_habit') }}" class="btn btn-primary add-btn">Add Habit</a>
+        </div>
+    </section>
+
+    <h3>Tell Us About Your Day</h3>
+    <form method="POST" action="{{ url_for('dashboard.dashboard') }}">
+        <textarea name="entry" rows="5" placeholder="Write your thoughts here..." required></textarea>
+        <button type="submit">Submit</button>
+    </form>
+    {% if latest_chat %}
+    <div class="latest-feedback">
+        <h4>Your Last Journal Entry</h4>
+        <p><strong>Your Thoughts:</strong> {{ latest_chat.response }}</p>
+        <p><strong>Feedback:</strong> {{ latest_chat.prompt }}</p>
+    </div>
+    {% else %}
+    <p>No journal entry yet. Start by sharing your thoughts!</p>
+    {% endif %}
+
+<script>
+    window.onload = function () {
+    console.log("All DOM elements and resources are fully loaded.");
+
+    // Attach change event listeners to schedule checkboxes
+    document.querySelectorAll("input[name^='schedule_']").forEach(checkbox => {
+        console.log(`Initializing event listener for schedule checkbox: ${checkbox.name}`);
+        checkbox.addEventListener("change", function () {
+            const taskId = this.name.split("_")[1]; // Extract task ID from the name
+            updateCheckbox("/dashboard/update_schedule_tracking", taskId, this.checked);
+        });
+    });
+
+    // Attach change event listeners to habit checkboxes
+    document.querySelectorAll("input[name^='habit_']").forEach(checkbox => {
+        console.log(`Initializing event listener for habit checkbox: ${checkbox.name}`);
+        checkbox.addEventListener("change", function () {
+            const habitId = this.name.split("_")[1]; // Extract habit ID from the name
+            updateCheckbox("/dashboard/update_habit_tracking", habitId, this.checked);
+        });
+    });
+
+    console.log("Event listeners initialized.");
+};
+
+// Function to handle checkbox state changes
+function updateCheckbox(url, id, isChecked) {
+    const fullUrl = `${url}/${id}`;
+    console.log(`Updating checkbox at ${fullUrl} with value: ${isChecked}`);
+    fetch(fullUrl, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ followed: isChecked }),
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log(`Update successful for ID: ${id}`);
+        } else {
+            console.error(`Failed to update for ID: ${id}`);
+        }
+    })
+    .catch(error => console.error("Error:", error));
+}
+
+
+</script>
+{% endblock %}

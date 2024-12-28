@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Register - Dream Builder{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="register-container">
+        <h2>Register</h2>
+        <form action="{{ url_for('auth.register') }}" method="POST">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+            {% if erroru %}
+            <p style="color: red;">{{ erroru }}</p>
+            {% endif %}
+            
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="full_name">Full Name</label>
+            <input type="text" id="full_name" name="full_name" required>
+            
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" name="dob" required>
+            
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            <p id="passwordCheck"></p>
+            
+            <label for="confirm_password">Confirm Password</label>
+            <input type="password" id="confirm_password" name="confirm_password" required>
+            {% if errorc %}
+            <p style="color: red;">{{ errorc }}</p>
+            {% endif %}
+            
+            <button type="submit">Register</button>
+        </form>
+
+        <p>Already have an account? <a href="{{ url_for('auth.login') }}">Login here</a></p>
+    </div>
+</div>
+<script>
+    const password = document.getElementById('password');
+    const passwordCheck = document.getElementById('passwordCheck');
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&#^])[A-Za-z\d@$!%*?&#^]{6,}$/;
+    password.addEventListener('change',(e)=>{
+        console.log('called');
+        let passwordValue = e.target.value;
+        if(passwordValue.length<8){
+            passwordCheck.textContent = 'Length should be higher than 8';
+            passwordCheck.style.color = 'red';
+        }else if(!passwordRegex.test(passwordValue)){
+            passwordCheck.textContent = 'Weak Password';
+            passwordCheck.style.color = 'red';
+        }else{
+            passwordCheck.textContent = 'Strong Password';
+            passwordCheck.style.color = 'green';
+        }
+    })
+</script>
+{% endblock %}

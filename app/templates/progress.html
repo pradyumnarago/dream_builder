@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Progress - Dream Builder{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Your Progress</h2>
+
+    <!-- Flash messages for feedback -->
+    
+
+    <!-- Progress Overview Section -->
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Overall Progress</h4>
+            <p>Here you can see an overview of your progress across all your goals, habits, and achievements.</p>
+
+            <!-- Example progress bars for overall progress (You can customize these) -->
+            <h5>Habits Completion</h5>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">{{schedule_progress.percentage}}%</div>
+            </div>
+
+            <h5>Schedule Adherence</h5>
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">{{habit_progress.percentage}}%</div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <h4>Recent Activity</h4>
+            <p>Here is a summary of your recent progress updates, including completed tasks, goals achieved, and habit tracking.</p>
+
+            <!-- Placeholder for charts or other visual progress tracking -->
+            <div id="activity-chart">
+                <!-- You can add a chart here using a library like Chart.js or similar -->
+                <p>Progress chart goes here (e.g., Line chart for weekly/monthly tracking).</p>
+                <img src="data:image/png;base64,{{ schedule_chart }}" alt="Schedule Progress Chart">
+                <img src="data:image/png;base64,{{ habit_chart }}" alt="Habit Progress Chart">
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Achievements Section -->
+    <h3 class="mt-4">Your Achievements</h3>
+    {% if achievements %}
+        <ul class="list-group">
+            {% for achievement in achievements %}
+                <li class="list-group-item">
+                    <strong>{{ achievement.title }}</strong><br>
+                    <small>Date Achieved: {{ achievement.date }}</small><br>
+                    <p>{{ achievement.description }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No achievements yet. Keep up the good work!</p>
+    {% endif %}
+</div>
+{% endblock %}
